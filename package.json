@@ -12,15 +12,16 @@
     },
     "dependencies": {
         "@expo-google-fonts/roboto": "^0.2.3",
-        "@gluestack-style/react": "^1.0.52",
-        "@gluestack-ui/config": "^1.1.17",
-        "@gluestack-ui/themed": "^1.1.12",
+        "clsx": "^2.1.0",
         "expo": "~50.0.13",
         "expo-font": "~11.10.3",
         "expo-status-bar": "~1.11.1",
+        "nativewind": "^4.0.36",
         "react": "18.2.0",
         "react-native": "0.73.5",
-        "react-native-svg": "^14.1.0"
+        "react-native-reanimated": "^3.8.1",
+        "react-native-svg": "^14.1.0",
+        "tailwindcss": "^3.4.1"
     },
     "devDependencies": {
         "@babel/core": "^7.20.0",

@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { StatusBar } from 'react-native'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
-import { GluestackUIProvider } from '@gluestack-ui/themed'
-import { config } from './gluestack-style.config'
 
-import { Loading } from '@/components/Loading'
-import { Signin } from '@/screens/signin'
+import '@/styles/global.css'
+
+import { Loading } from '@/components/Loading/Loading'
+import { SignUp } from '@/screens/auth/signUp'
 
 export default function App() {
     const [fontsLoaded, fontError] = useFonts({
@@ -18,9 +18,9 @@ export default function App() {
     }
 
     return (
-        <GluestackUIProvider config={config}>
+        <>
             <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-            <Signin />
-        </GluestackUIProvider>
+            <SignUp />
+        </>
     )
 }

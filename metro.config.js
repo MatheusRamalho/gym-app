@@ -1,21 +1,17 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
+// Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require('expo/metro-config')
+const { withNativeWind } = require('nativewind/metro')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const reactNativeSvgTransformer = require('react-native-svg-transformer')
 
-module.exports = (() => {
-    const config = getDefaultConfig(__dirname)
+const baseConfig = getDefaultConfig(__dirname)
 
-    const { transformer, resolver } = config
+// Modificações no transformer
+baseConfig.transformer.babelTransformerPath = require.resolve('react-native-svg-transformer')
 
-    config.transformer = {
-        ...transformer,
-        babelTransformerPath: require.resolve('react-native-svg-transformer'),
-    }
+// Modificações no resolver
+baseConfig.resolver.assetExts = baseConfig.resolver.assetExts.filter((ext) => ext !== 'svg')
+baseConfig.resolver.sourceExts = [...baseConfig.resolver.sourceExts, 'svg']
 
-    config.resolver = {
-        ...resolver,
-        assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
-        sourceExts: [...resolver.sourceExts, 'svg'],
-    }
-
-    return config
-})()
+module.exports = withNativeWind(baseConfig, { input: './src/styles/global.css' })
