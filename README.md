@@ -23,8 +23,6 @@
 
 ## 💡 Projeto
 
-Imagine chegar em casa com fome depois de um dia de muito trabalho e lembrar que você esqueceu de passar no mercado fazer as compras da semana.Então você decide abrir a geladeira pra fazer uma janta com o que tem em casa, mas está sem muita criatividade pra ter ideia do que cozinhar.
-Então resolve abrir o Cook App pra ele te ajudar a criar uma receita conforme os ingredientes disponíveis. Esse é um dos projetos desenvolvidos em aula do evento React Native na Prática, um de nossos conteúdos de especialização.
 
 <br />
 
@@ -86,7 +84,7 @@ npx expo start
 
 ## 📝 Licença
 
-Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
+Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 <br />
 
