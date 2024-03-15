@@ -19,7 +19,7 @@ export function Button({ title, variant = 'primary', ...rest }: ButtonProps) {
             <Text
                 className={clsx(
                     'font-bold text-lg text-white font-heading',
-                    variant === 'secondary' && 'text-green-700 group-active:!text-white',
+                    variant === 'secondary' && '!text-green-700 group-active:!text-white',
                 )}
             >
                 {title}
