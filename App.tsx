@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
-import { StatusBar, Text, View } from 'react-native'
+import { StatusBar } from 'react-native'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
+import { GluestackUIProvider } from '@gluestack-ui/themed'
+import { config } from './gluestack-style.config'
+
+import { Loading } from '@/components/Loading'
+import { Signin } from '@/screens/signin'
 
 export default function App() {
     const [fontsLoaded, fontError] = useFonts({
@@ -9,13 +14,13 @@ export default function App() {
     })
 
     if (!fontsLoaded && !fontError) {
-        return null
+        return <Loading />
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202024' }}>
+        <GluestackUIProvider config={config}>
             <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-            <Text style={{ color: 'white' }}> Hello World </Text>
-        </View>
+            <Signin />
+        </GluestackUIProvider>
     )
 }
