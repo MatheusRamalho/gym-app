@@ -12,7 +12,7 @@ interface ExerciseCardProps extends TouchableOpacityProps {
 export function ExerciseCard({ image, name, series, repetitions, ...rest }: ExerciseCardProps) {
     return (
         <TouchableOpacity
-            className="w-full h-24 px-4 rounded-xl bg-gray-600 border border-gray-500 flex-row items-center justify-between gap-4"
+            className="w-full h-24 px-4 rounded-xl bg-gray-700 border border-gray-600 flex-row items-center justify-between gap-4"
             {...rest}
         >
             <View className="flex-1 flex-row items-center gap-4">

@@ -23,8 +23,8 @@ export function AppRoutes() {
                 tabBarActiveTintColor: '#00875F',
                 tabBarInactiveTintColor: '#C4C4CC',
                 tabBarStyle: {
-                    borderTopWidth: 0,
-                    backgroundColor: '#202024',
+                    borderTopColor: '#29292E',
+                    backgroundColor: '#0F0F10',
                     paddingTop: 24,
                     paddingBottom: 40,
                     // Altura baseado no android ou ios (Platform)

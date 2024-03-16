@@ -30,7 +30,7 @@ export function Profile() {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView contentContainerClassName="grow" showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerClassName="grow pb-20" showsVerticalScrollIndicator={false}>
                 <View className="w-full gap-12 px-8">
                     <View className="gap-5">
                         <Input placeholder="Nome" />

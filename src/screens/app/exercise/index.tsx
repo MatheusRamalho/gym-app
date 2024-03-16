@@ -19,7 +19,7 @@ export function Exercise() {
 
     return (
         <View className="flex-1">
-            <View className="p-8 pb-12 py-20 bg-gray-600 gap-4">
+            <View className="p-8 pb-12 py-20 bg-gray-800 border-b border-b-gray-700 gap-4">
                 <TouchableOpacity onPress={handleGoBack}>
                     <ArrowLeftSvg width={24} height={24} fill="#00B37E" />
                 </TouchableOpacity>
@@ -47,7 +47,7 @@ export function Exercise() {
                         />
                     </View>
 
-                    <View className="bg-gray-600 p-4 rounded-lg">
+                    <View className="bg-gray-700 border border-gray-600 p-4 rounded-lg">
                         <View className="flex-row items-center justify-center gap-6 mb-6">
                             <View className="flex-row gap-1 items-center">
                                 <SeriesSvg width={24} height={24} fill="#00B37E" />
