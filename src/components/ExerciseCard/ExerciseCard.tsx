@@ -21,7 +21,7 @@ export function ExerciseCard({ image, name, series, repetitions, ...rest }: Exer
                         className="size-full border border-gray-500 rounded-lg"
                         source={{ uri: image }}
                         alt={name}
-                        // resizeMode="center"
+                        resizeMode="cover"
                     />
                 </View>
 

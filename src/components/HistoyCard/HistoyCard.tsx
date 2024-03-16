@@ -11,7 +11,9 @@ export function HistoryCard({ muscle, exercise, time }: HistoryCardProps) {
         <View className="w-full h-24 px-4 rounded-xl bg-gray-600 border border-gray-500 flex-row items-center justify-between gap-4">
             <View className="flex-1 flex-row items-center gap-4">
                 <View className="flex-1">
-                    <Text className="text-white font-heading font-bold text-xl capitalize"> {muscle} </Text>
+                    <Text className="text-white font-heading font-bold text-xl capitalize" numberOfLines={1}>
+                        {muscle}
+                    </Text>
 
                     <Text className="text-gray-200 font-body text-lg" numberOfLines={1}>
                         {exercise}

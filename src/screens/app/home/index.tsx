@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { FlatList, Text, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+
+import { AppNavigatorRoutesProps } from '@/types/AppRoutes'
 
 import { HeaderHome } from '@/components/HeaderHome'
 import { MuscleGroup } from '@/components/MuscleGroup'
@@ -14,6 +17,12 @@ export function Home() {
         { id: '123456', name: 'Remada unilateral', series: 3, repetitions: 12 },
         { id: '1234567', name: 'Levantamenmto terra', series: 3, repetitions: 12 },
     ])
+
+    const navigation = useNavigation<AppNavigatorRoutesProps>()
+
+    function handleOpenExerciseDetails() {
+        navigation.navigate('exercise')
+    }
 
     return (
         <View className="flex-1">
@@ -32,7 +41,7 @@ export function Home() {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 32, gap: 4 }}
-                className="my-10 max-h-14"
+                className="my-10 min-h-14 max-h-14"
             />
 
             <View className="flex-1 px-8">
@@ -53,6 +62,7 @@ export function Home() {
                             series={item.series}
                             repetitions={item.repetitions}
                             image="https://conteudo.imguol.com.br/c/entretenimento/35/2019/04/09/pulley-frente-1554824315336_v2_1254x837.jpg"
+                            onPress={handleOpenExerciseDetails}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
