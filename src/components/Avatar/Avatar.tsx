@@ -9,7 +9,7 @@ interface AvatarProps extends ImageProps {
 export function Avatar({ size, alt, ...rest }: AvatarProps) {
     return (
         <Image
-            className={clsx('rounded-full boorder-2 border-gray-400', size === 'large' ? 'size-96' : 'size-14')}
+            className={clsx('rounded-full boorder-2 border-gray-400', size === 'large' ? 'size-32' : 'size-14')}
             alt={alt}
             {...rest}
         />
