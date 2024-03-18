@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { SectionList, Text, View } from 'react-native'
 
-import { HeaderScreen } from '@/components/HeaderScreen'
 import { HistoryCard } from '@/components/HistoyCard'
+import { Header } from '@/components/Header'
 
 export function History() {
     const [exercises] = useState([
@@ -18,7 +18,7 @@ export function History() {
 
     return (
         <View className="flex-1">
-            <HeaderScreen title="Histórico de exercícios" />
+            <Header title="Histórico de exercícios" />
 
             <SectionList
                 sections={exercises}

@@ -1,38 +1,15 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { Image, ScrollView, Text, View } from 'react-native'
 
-import ArrowLeftSvg from '@/assets/svgs/arrow-left.svg'
 import SeriesSvg from '@/assets/svgs/series.svg'
 import RepetitionsSvg from '@/assets/svgs/repetitions.svg'
-import BodySvg from '@/assets/svgs/body.svg'
-
-import { AppNavigatorRoutesProps } from '@/types/AppRoutes'
 
 import { Button } from '@/components/Button'
+import { Header } from '@/components/Header'
 
 export function Exercise() {
-    const navigation = useNavigation<AppNavigatorRoutesProps>()
-
-    function handleGoBack() {
-        navigation.goBack()
-    }
-
     return (
         <View className="flex-1">
-            <View className="p-8 pb-12 py-20 bg-gray-800 border-b border-b-gray-700 gap-4">
-                <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowLeftSvg width={24} height={24} fill="#00B37E" />
-                </TouchableOpacity>
-
-                <View className="flex-row justify-between gap-2">
-                    <Text className="flex-1 font-bold font-heading text-xl text-gray-100"> Exercício alguma </Text>
-
-                    <View className="flex-row gap-1">
-                        <BodySvg width={18} height={18} fill="#7C7C8A" />
-                        <Text className="font-body text-base text-gray-100 capitalize"> Costas </Text>
-                    </View>
-                </View>
-            </View>
+            <Header title="Exercício alguma coisa" description="Costas" />
 
             <ScrollView contentContainerClassName="grow" showsVerticalScrollIndicator={false}>
                 <View className="p-8 gap-8">

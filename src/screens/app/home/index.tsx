@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import { AppNavigatorRoutesProps } from '@/types/AppRoutes'
 
-import { HeaderHome } from '@/components/HeaderHome'
+import { Header } from '@/components/Header'
 import { MuscleGroup } from '@/components/MuscleGroup'
 import { ExerciseCard } from '@/components/ExerciseCard'
 
@@ -26,7 +26,7 @@ export function Home() {
 
     return (
         <View className="flex-1">
-            <HeaderHome />
+            <Header isUser />
 
             <FlatList
                 data={groups}

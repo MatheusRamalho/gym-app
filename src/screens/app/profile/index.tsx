@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
-import { HeaderScreen } from '@/components/HeaderScreen'
 import { Avatar } from '@/components/Avatar'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { Skeleton } from '@/components/Skeleton'
+import { Header } from '@/components/Header'
 
 export function Profile() {
     const [phoIsLoading] = useState<boolean>(false)
 
     return (
         <View className="flex-1">
-            <HeaderScreen title="Perfil" />
+            <Header title="Perfil" />
 
             <View className="my-10 items-center">
                 {phoIsLoading ? (
