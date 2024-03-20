@@ -43,14 +43,14 @@ export function AuthLayout({
                         <Text className="font-heading font-bold text-xl text-gray-100"> {title} </Text>
                     </View>
 
-                    <View className="w-full gap-5">
+                    <View className="w-full gap-2">
                         {children}
 
                         <Button title={buttonPrimaryText} onPress={onPressPrimary} />
                     </View>
                 </View>
 
-                <View className="items-center gap-3">
+                <View className="mt-10 items-center gap-3">
                     <Button title={buttonSecoondaryText} variant="secondary" onPress={onPressSecondary} />
                 </View>
             </View>

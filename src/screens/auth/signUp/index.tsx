@@ -1,27 +1,32 @@
+/* eslint-disable camelcase */
 import { useNavigation } from '@react-navigation/native'
 import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 
 import { AuthLayout } from '@/layouts/AuthLayout'
+
 import { Input } from '@/components/Input'
 
 import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
-import { Text } from 'react-native'
 
-// const signUpSchema = zod.object({
-//     name: zod.string().nonempty('O nome da cidade é obrigatório'),
-//     email: zod.string().email().nonempty('O nome do bairro é obrigatório'),
-//     password: zod.string().nonempty('O nome da cidade é obrigatório'),
-//     password_confirm: zod.string().nonempty('O nome da cidade é obrigatório'),
-// })
+const signUpSchema = zod
+    .object({
+        name: zod.string({ required_error: 'Informe o nome.' }),
+        email: zod.string().email({ message: 'E-mail invalido.' }),
+        password: zod
+            .string({ required_error: 'Informe a senha.' })
+            .min(6, 'A senha deve conter pelo menos 6 dígitos.'),
+        password_confirm: zod
+            .string({ required_error: 'Confirme a senha.' })
+            .min(6, 'A confirmação de senha deve conter pelo menos 6 dígitos.'),
+    })
+    .refine(({ password, password_confirm }) => password === password_confirm, {
+        message: 'A confirmação da senha não confere.',
+        path: ['password_confirm'],
+    })
 
-// type SignUpSchemaData = zod.infer<typeof addressSchema>
-
-interface SignUpSchemaData {
-    name: string
-    email: string
-    password: string
-    password_confirm: string
-}
+type SignUpSchemaData = zod.infer<typeof signUpSchema>
 
 export function SignUp() {
     const navigation = useNavigation<AuthNavigatorRoutesProps>()
@@ -31,8 +36,13 @@ export function SignUp() {
         handleSubmit,
         formState: { errors },
     } = useForm<SignUpSchemaData>({
-        // resolver: zodResolver(addressSchema),
-        // defaultValues: formData,
+        resolver: zodResolver(signUpSchema),
+        // defaultValues: {
+        //     name: '',
+        //     email: '',
+        //     password: '',
+        //     password_confirm: '',
+        // },
     })
 
     function handleSignUp(data: SignUpSchemaData) {
@@ -55,10 +65,15 @@ export function SignUp() {
                 control={control}
                 name="name"
                 render={({ field: { value, onChange } }) => (
-                    <Input placeholder="Nome" value={value} onChangeText={onChange} />
+                    <Input
+                        placeholder="Nome"
+                        value={value}
+                        onChangeText={onChange}
+                        isInvalid={!!errors.name}
+                        errorMessage={errors.name && errors.name.message}
+                    />
                 )}
             />
-            {errors.name && <Text className="text-red-500 text-sm"> O nome é obrigatório! </Text>}
 
             <Controller
                 control={control}
@@ -70,19 +85,26 @@ export function SignUp() {
                         autoCapitalize="none"
                         value={value}
                         onChangeText={onChange}
+                        isInvalid={!!errors.email}
+                        errorMessage={errors.email && errors.email.message}
                     />
                 )}
             />
-            {errors.email && <Text className="text-red-500 text-sm"> O e-mail é obrigatório! </Text>}
 
             <Controller
                 control={control}
                 name="password"
                 render={({ field: { value, onChange } }) => (
-                    <Input placeholder="Senha" secureTextEntry value={value} onChangeText={onChange} />
+                    <Input
+                        placeholder="Senha"
+                        secureTextEntry
+                        value={value}
+                        onChangeText={onChange}
+                        isInvalid={!!errors.password}
+                        errorMessage={errors.password && errors.password.message}
+                    />
                 )}
             />
-            {errors.password && <Text className="text-red-500 text-sm"> A senha é obrigatória! </Text>}
 
             <Controller
                 control={control}
@@ -95,15 +117,11 @@ export function SignUp() {
                         onChangeText={onChange}
                         onSubmitEditing={handleSubmit(handleSignUp)}
                         returnKeyType="send"
+                        isInvalid={!!errors.password_confirm}
+                        errorMessage={errors.password_confirm && errors.password_confirm.message}
                     />
                 )}
             />
-
-            {errors.password_confirm && (
-                <Text className="text-red-500 text-sm">
-                    A confirmação de senha é obrigatória e deve ser igual a senha!
-                </Text>
-            )}
         </AuthLayout>
     )
 }
