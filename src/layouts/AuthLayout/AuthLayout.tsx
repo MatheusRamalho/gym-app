@@ -20,6 +20,7 @@ export function AuthLayout({
     buttonPrimaryText,
     buttonSecoondaryText,
     children,
+    onPressPrimary,
     onPressSecondary,
 }: AuthLayoutProps) {
     return (
@@ -45,7 +46,7 @@ export function AuthLayout({
                     <View className="w-full gap-5">
                         {children}
 
-                        <Button title={buttonPrimaryText} />
+                        <Button title={buttonPrimaryText} onPress={onPressPrimary} />
                     </View>
                 </View>
 
