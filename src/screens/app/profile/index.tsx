@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system'
 
 import { Avatar } from '@/components/Avatar'
 import { Input } from '@/components/Input'
@@ -8,24 +10,52 @@ import { Skeleton } from '@/components/Skeleton'
 import { Header } from '@/components/Header'
 
 export function Profile() {
-    const [phoIsLoading] = useState<boolean>(false)
+    const [photoIsLoading, setPhotoIsLoading] = useState<boolean>(false)
+    const [userPhoto, setUserPhoto] = useState<string>('https://github.com/MatheusRamalho.png')
+
+    // Acessar album do dispositivo
+    async function handleUserPhotoSelect() {
+        setPhotoIsLoading(true)
+
+        try {
+            const photoSelected = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images, // Tipo de arquivo
+                quality: 1, // Quanlidade da imagem, vai de 0 a 1
+                aspect: [4, 4], // Aspecto da iamgem
+                allowsEditing: true, // Habilitar a edição da imagem pelo usuario
+            })
+
+            if (photoSelected.canceled) return
+
+            if (photoSelected.assets[0].uri) {
+                // Para bloquear upar foto com mais de 5mb
+                const photoInfo = await FileSystem.getInfoAsync(photoSelected.assets[0].uri)
+
+                if (photoInfo.exists && photoInfo.size / 1024 / 1024 > 5) {
+                    return Alert.alert('essa imagem é muito grande. Escolha uma até 5MB')
+                }
+
+                setUserPhoto(photoSelected.assets[0].uri)
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setPhotoIsLoading(false)
+        }
+    }
 
     return (
         <View className="flex-1">
             <Header title="Perfil" />
 
             <View className="my-10 items-center">
-                {phoIsLoading ? (
+                {photoIsLoading ? (
                     <Skeleton className="size-32 bg-gray-600 rounded-full" />
                 ) : (
-                    <Avatar
-                        size="large"
-                        source={{ uri: 'https://github.com/MatheusRamalho.png' }}
-                        alt="Foto do usuário"
-                    />
+                    <Avatar size="large" source={{ uri: userPhoto }} alt="Foto do usuário" />
                 )}
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleUserPhotoSelect}>
                     <Text className="text-green-500 font-bold text-lg mt-4"> Alterar foto </Text>
                 </TouchableOpacity>
             </View>

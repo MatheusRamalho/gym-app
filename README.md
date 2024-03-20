@@ -91,3 +91,9 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 🧠 Desenvolvedores
 
 [<img src="https://avatars.githubusercontent.com/u/15633283?v=4" width=80> <br><sub>Matheus Ramalho</sub>](https://github.com/MatheusRamalho)
+
+
+
+FICOU PENDENTE POR NÃO UTILIZAR O NATIVEBASE
+
+- TOAST NO LUGAR DO ALERT.
