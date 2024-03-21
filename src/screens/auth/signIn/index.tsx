@@ -1,15 +1,37 @@
 import { useNavigation } from '@react-navigation/native'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 
 import { AuthLayout } from '@/layouts/AuthLayout'
 import { Input } from '@/components/Input'
 
 import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
 
+const signInSchema = zod.object({
+    email: zod.string().email({ message: 'E-mail invalido.' }),
+    password: zod.string({ required_error: 'Informe a senha.' }).min(6, 'A senha deve conter pelo menos 6 dígitos.'),
+})
+
+type SignInSchemaData = zod.infer<typeof signInSchema>
+
 export function SignIn() {
     const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignInSchemaData>({
+        resolver: zodResolver(signInSchema),
+    })
+
     function handleNewAccount() {
         navigation.navigate('signUp')
+    }
+
+    function handleSignIng(data: SignInSchemaData) {
+        console.log(data)
     }
 
     return (
@@ -17,10 +39,39 @@ export function SignIn() {
             title="Acesse sua conta"
             buttonPrimaryText="Acessar"
             buttonSecoondaryText="Criar conta"
+            onPressPrimary={handleSubmit(handleSignIng)}
             onPressSecondary={handleNewAccount}
         >
-            <Input placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" />
-            <Input placeholder="Senha" secureTextEntry />
+            <Controller
+                control={control}
+                name="email"
+                render={({ field: { value, onChange } }) => (
+                    <Input
+                        placeholder="E-mail"
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        value={value}
+                        onChangeText={onChange}
+                        isInvalid={!!errors.email}
+                        errorMessage={errors.email && errors.email.message}
+                    />
+                )}
+            />
+
+            <Controller
+                control={control}
+                name="password"
+                render={({ field: { value, onChange } }) => (
+                    <Input
+                        placeholder="Senha"
+                        secureTextEntry
+                        value={value}
+                        onChangeText={onChange}
+                        isInvalid={!!errors.password}
+                        errorMessage={errors.password && errors.password.message}
+                    />
+                )}
+            />
         </AuthLayout>
     )
 }
