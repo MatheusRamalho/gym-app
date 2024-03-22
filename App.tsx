@@ -1,8 +1,11 @@
 /* eslint-disable camelcase */
 import { StatusBar } from 'react-native'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 import '@/styles/global.css'
+
+import { queryClient } from '@/lib/react-query'
 
 import { Routes } from '@/routes'
 
@@ -21,7 +24,10 @@ export default function App() {
     return (
         <>
             <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-            <Routes />
+
+            <QueryClientProvider client={queryClient}>
+                <Routes />
+            </QueryClientProvider>
         </>
     )
 }

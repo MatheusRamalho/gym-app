@@ -3,6 +3,9 @@ import { useNavigation } from '@react-navigation/native'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
+import { useMutation } from '@tanstack/react-query'
+
+import { createUser } from '@/api/set-user'
 
 import { AuthLayout } from '@/layouts/AuthLayout'
 
@@ -39,8 +42,15 @@ export function SignUp() {
         resolver: zodResolver(signUpSchema),
     })
 
-    function handleSignUp(data: SignUpSchemaData) {
-        console.log(data)
+    const { mutateAsync: createNewUser } = useMutation({
+        mutationFn: createUser,
+        onSuccess: () => {
+            alert('Usuário criado com sucesso')
+        },
+    })
+
+    function handleSignUp({ name, email, password }: SignUpSchemaData) {
+        createNewUser({ name, email, password })
     }
 
     function handleGoBack() {
