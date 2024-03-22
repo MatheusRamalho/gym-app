@@ -5,13 +5,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useMutation } from '@tanstack/react-query'
 
-import { createUser } from '@/api/set-user'
+import { setUser } from '@/api/set-user'
+
+import { AppError } from '@/utils/AppError'
+
+import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
 
 import { AuthLayout } from '@/layouts/AuthLayout'
 
 import { Input } from '@/components/Input'
-
-import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
 
 const signUpSchema = zod
     .object({
@@ -43,9 +45,15 @@ export function SignUp() {
     })
 
     const { mutateAsync: createNewUser } = useMutation({
-        mutationFn: createUser,
+        mutationFn: setUser,
         onSuccess: () => {
             alert('Usuário criado com sucesso')
+        },
+        onError: (error) => {
+            const isAppError = error instanceof AppError
+            const message = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde'
+
+            alert(message)
         },
     })
 

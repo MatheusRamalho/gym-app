@@ -6,7 +6,7 @@ interface UserParams {
     password: string
 }
 
-export async function createUser({ name, email, password }: UserParams) {
+export async function setUser({ name, email, password }: UserParams) {
     const response = await api.post(`/users`, {
         name,
         email,
