@@ -3,9 +3,11 @@ import { ReactNode, createContext, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
 import { User } from '@/types/User'
+import { api } from '@/libs/axios'
 import { setSignIn } from '@/api/sign-in'
 import { AppError } from '@/utils/appError'
 import { storageUserSet, storageUserGet, storageUserRemove } from '@/storage/storageUser'
+import { storageAuthTokenSet, storageAuthTokenGet, storageAuthTokenRemove } from '@/storage/storageAuthToken'
 
 interface AuthContextProps {
     user: User | null
@@ -34,15 +36,51 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         },
     })
 
-    async function signIn(email: string, password: string) {
-        setIsLoading(isPending)
+    async function userAndTokenUpdate(user: User, token: string) {
+        api.defaults.headers.common.Authorization = `Bearer ${token}`
+        setUser(user)
+    }
 
+    async function storageUserAndTokenSave(user: User, token: string) {
         try {
-            const response = await signInMutation({ email, password })
+            setIsLoading(true)
 
-            if (response) {
-                setUser(response.user)
-                storageUserSet(response.user)
+            await storageUserSet(user)
+            await storageAuthTokenSet(token)
+        } catch (error) {
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function storageUserAndTokenGet() {
+        try {
+            setIsLoading(true)
+
+            const userLogged = await storageUserGet()
+            const tokenUserLogged = await storageAuthTokenGet()
+
+            return {
+                userLogged,
+                tokenUserLogged,
+            }
+        } catch (error) {
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function signIn(email: string, password: string) {
+        try {
+            setIsLoading(isPending)
+
+            const data = await signInMutation({ email, password })
+
+            if (data.user && data.token) {
+                storageUserAndTokenSave(data.user, data.token)
+                userAndTokenUpdate(data.user, data.token)
             }
         } catch (error) {
             throw error
@@ -55,7 +93,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         try {
             setIsLoading(true)
             setUser(null)
+
             await storageUserRemove()
+            await storageAuthTokenRemove()
         } catch (error) {
             throw error
         } finally {
@@ -64,13 +104,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
 
     async function loadUserData() {
-        setIsLoading(true)
-
         try {
-            const userLogged = await storageUserGet()
+            setIsLoading(true)
 
-            if (userLogged) {
-                setUser(userLogged)
+            const { userLogged, tokenUserLogged } = await storageUserAndTokenGet()
+
+            if (tokenUserLogged && userLogged) {
+                userAndTokenUpdate(userLogged, tokenUserLogged)
             }
         } catch (error) {
             throw error

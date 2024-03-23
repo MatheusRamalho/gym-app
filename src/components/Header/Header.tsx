@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import { useAuth } from '@/hooks/useAuth'
 
-import { Avatar } from '../Avatar'
+import { Avatar } from '@/components/Avatar'
 
 import avatarImg from '@/assets/imgs/userPhotoDefault.png'
 import LogoutSvg from '@/assets/svgs/logout.svg'
