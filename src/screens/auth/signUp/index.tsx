@@ -6,14 +6,11 @@ import * as zod from 'zod'
 import { useMutation } from '@tanstack/react-query'
 
 import { setUser } from '@/api/set-user'
-
-import { AppError } from '@/utils/AppError'
-
+import { AppError } from '@/utils/appError'
 import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
-
 import { AuthLayout } from '@/layouts/AuthLayout'
-
 import { Input } from '@/components/Input'
+import { View, Button } from 'react-native'
 
 const signUpSchema = zod
     .object({
@@ -44,7 +41,7 @@ export function SignUp() {
         resolver: zodResolver(signUpSchema),
     })
 
-    const { mutateAsync: createNewUser } = useMutation({
+    const { mutateAsync: setUserMutation, isPending } = useMutation({
         mutationFn: setUser,
         onSuccess: () => {
             alert('Usuário criado com sucesso')
@@ -58,7 +55,7 @@ export function SignUp() {
     })
 
     function handleSignUp({ name, email, password }: SignUpSchemaData) {
-        createNewUser({ name, email, password })
+        setUserMutation({ name, email, password })
     }
 
     function handleGoBack() {
@@ -66,73 +63,75 @@ export function SignUp() {
     }
 
     return (
-        <AuthLayout
-            title="Crie sua conta"
-            buttonPrimaryText="Criar e acessar"
-            buttonSecoondaryText="Voltar para o login"
-            onPressPrimary={handleSubmit(handleSignUp)}
-            onPressSecondary={handleGoBack}
-        >
-            <Controller
-                control={control}
-                name="name"
-                render={({ field: { value, onChange } }) => (
-                    <Input
-                        placeholder="Nome"
-                        value={value}
-                        onChangeText={onChange}
-                        isInvalid={!!errors.name}
-                        errorMessage={errors.name && errors.name.message}
-                    />
-                )}
-            />
+        <AuthLayout title="Crie sua conta" buttonSecoondaryText="Voltar para o login" onPressSecondary={handleGoBack}>
+            <View className="">
+                <Controller
+                    control={control}
+                    name="name"
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder="Nome"
+                            value={value}
+                            onChangeText={onChange}
+                            isInvalid={!!errors.name}
+                            errorMessage={errors.name && errors.name.message}
+                        />
+                    )}
+                />
 
-            <Controller
-                control={control}
-                name="email"
-                render={({ field: { value, onChange } }) => (
-                    <Input
-                        placeholder="E-mail"
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        value={value}
-                        onChangeText={onChange}
-                        isInvalid={!!errors.email}
-                        errorMessage={errors.email && errors.email.message}
-                    />
-                )}
-            />
+                <Controller
+                    control={control}
+                    name="email"
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder="E-mail"
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            value={value}
+                            onChangeText={onChange}
+                            isInvalid={!!errors.email}
+                            errorMessage={errors.email && errors.email.message}
+                        />
+                    )}
+                />
 
-            <Controller
-                control={control}
-                name="password"
-                render={({ field: { value, onChange } }) => (
-                    <Input
-                        placeholder="Senha"
-                        secureTextEntry
-                        value={value}
-                        onChangeText={onChange}
-                        isInvalid={!!errors.password}
-                        errorMessage={errors.password && errors.password.message}
-                    />
-                )}
-            />
+                <Controller
+                    control={control}
+                    name="password"
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder="Senha"
+                            secureTextEntry
+                            value={value}
+                            onChangeText={onChange}
+                            isInvalid={!!errors.password}
+                            errorMessage={errors.password && errors.password.message}
+                        />
+                    )}
+                />
 
-            <Controller
-                control={control}
-                name="password_confirm"
-                render={({ field: { value, onChange } }) => (
-                    <Input
-                        placeholder="Confirme a senha"
-                        secureTextEntry
-                        value={value}
-                        onChangeText={onChange}
-                        onSubmitEditing={handleSubmit(handleSignUp)}
-                        returnKeyType="send"
-                        isInvalid={!!errors.password_confirm}
-                        errorMessage={errors.password_confirm && errors.password_confirm.message}
-                    />
-                )}
+                <Controller
+                    control={control}
+                    name="password_confirm"
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder="Confirme a senha"
+                            secureTextEntry
+                            value={value}
+                            onChangeText={onChange}
+                            onSubmitEditing={handleSubmit(handleSignUp)}
+                            returnKeyType="send"
+                            isInvalid={!!errors.password_confirm}
+                            errorMessage={errors.password_confirm && errors.password_confirm.message}
+                        />
+                    )}
+                />
+            </View>
+
+            <Button
+                disabled={isPending}
+                title={isPending ? 'Carregando...' : 'Criar e cessar'}
+                onPress={handleSubmit(handleSignUp)}
             />
         </AuthLayout>
     )

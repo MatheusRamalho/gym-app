@@ -5,9 +5,11 @@ import { QueryClientProvider } from '@tanstack/react-query'
 
 import '@/styles/global.css'
 
-import { queryClient } from '@/lib/react-query'
+import { queryClient } from '@/libs/react-query'
 
 import { Routes } from '@/routes'
+
+import { AuthContextProvider } from '@/contexts/AuthContext'
 
 import { Loading } from '@/components/Loading/Loading'
 
@@ -26,7 +28,9 @@ export default function App() {
             <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
             <QueryClientProvider client={queryClient}>
-                <Routes />
+                <AuthContextProvider>
+                    <Routes />
+                </AuthContextProvider>
             </QueryClientProvider>
         </>
     )

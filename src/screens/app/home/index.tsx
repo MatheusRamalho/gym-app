@@ -3,7 +3,6 @@ import { FlatList, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { AppNavigatorRoutesProps } from '@/types/AppRoutes'
-
 import { Header } from '@/components/Header'
 import { MuscleGroup } from '@/components/MuscleGroup'
 import { ExerciseCard } from '@/components/ExerciseCard'

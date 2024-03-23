@@ -2,7 +2,6 @@ import { Image, ScrollView, Text, View } from 'react-native'
 
 import SeriesSvg from '@/assets/svgs/series.svg'
 import RepetitionsSvg from '@/assets/svgs/repetitions.svg'
-
 import { Button } from '@/components/Button'
 import { Header } from '@/components/Header'
 

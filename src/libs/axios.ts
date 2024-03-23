@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { AppError } from '@/utils/AppError'
+import { AppError } from '@/utils/appError'
 
 const BASE_URL = 'http://192.168.100.86:3333'
 

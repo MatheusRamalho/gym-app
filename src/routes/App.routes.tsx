@@ -4,12 +4,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeSvg from '@/assets/svgs/home.svg'
 import HistorySvg from '@/assets/svgs/history.svg'
 import ProfileSvg from '@/assets/svgs/profile.svg'
-
 import { Exercise } from '@/screens/app/exercise'
 import { Home } from '@/screens/app/home'
 import { Profile } from '@/screens/app/profile'
 import { History } from '@/screens/app/history'
-
 import { AppRoutesProps } from '@/types/AppRoutes'
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutesProps>()
