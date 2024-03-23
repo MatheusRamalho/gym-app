@@ -18,7 +18,7 @@ type SignInSchemaData = zod.infer<typeof signInSchema>
 
 export function SignIn() {
     const navigation = useNavigation<AuthNavigatorRoutesProps>()
-    const { signIn, isLoading } = useAuth()
+    const { signIn, isLoading: isLoadingUser } = useAuth()
 
     const {
         control,
@@ -72,8 +72,8 @@ export function SignIn() {
             </View>
 
             <Button
-                disabled={isLoading}
-                title={isLoading ? 'Carregando...' : 'Acessar'}
+                disabled={isLoadingUser}
+                title={isLoadingUser ? 'Carregando...' : 'Acessar'}
                 onPress={handleSubmit(handleSignIng)}
             />
         </AuthLayout>

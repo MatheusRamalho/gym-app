@@ -1,27 +1,31 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
+import { useAuth } from '@/hooks/useAuth'
+
 import { Avatar } from '../Avatar'
 
+import avatarImg from '@/assets/imgs/userPhotoDefault.png'
 import LogoutSvg from '@/assets/svgs/logout.svg'
 import ArrowLeftSvg from '@/assets/svgs/arrow-left.svg'
 import BodySvg from '@/assets/svgs/body.svg'
 
 interface HeaderProps {
     isUser?: boolean
-    user?: {
-        name: string
-        avatar: string
-    }
     title?: string
     description?: string
 }
 
 export function Header({ isUser = false, title, description }: HeaderProps) {
     const navigation = useNavigation()
+    const { user, signOut } = useAuth()
 
     function handleGoBack() {
         navigation.goBack()
+    }
+
+    function handleSignOut() {
+        signOut()
     }
 
     return (
@@ -29,11 +33,17 @@ export function Header({ isUser = false, title, description }: HeaderProps) {
             <View className="flex-1 flex-row gap-4">
                 {isUser ? (
                     <>
-                        <Avatar source={{ uri: 'https://github.com/MatheusRamalho.png' }} alt="Foto do usuário" />
+                        <Avatar
+                            source={user && user.avatar ? { uri: user?.avatar } : avatarImg}
+                            alt={user?.name || 'Avatar do usuário'}
+                        />
 
                         <View className="">
                             <Text className="text-base text-gray-100"> Olá, </Text>
-                            <Text className="font-bold font-heading text-xl text-gray-100"> Matheus Ramalho </Text>
+
+                            <Text className="font-bold font-heading text-xl text-gray-100">
+                                {user?.name || 'Usuário'}
+                            </Text>
                         </View>
                     </>
                 ) : (
@@ -56,7 +66,7 @@ export function Header({ isUser = false, title, description }: HeaderProps) {
                 )}
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSignOut}>
                 <LogoutSvg width={24} height={24} fill="#00B37E" />
             </TouchableOpacity>
         </View>

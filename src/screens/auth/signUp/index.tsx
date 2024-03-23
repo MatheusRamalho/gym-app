@@ -1,16 +1,17 @@
 /* eslint-disable camelcase */
+import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useMutation } from '@tanstack/react-query'
 
-import { setUser } from '@/api/set-user'
+import { setSignUp } from '@/api/sign-up'
 import { AppError } from '@/utils/appError'
 import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
 import { AuthLayout } from '@/layouts/AuthLayout'
 import { Input } from '@/components/Input'
-import { View, Button } from 'react-native'
+import { Button } from '@/components/Button'
 
 const signUpSchema = zod
     .object({
@@ -42,7 +43,7 @@ export function SignUp() {
     })
 
     const { mutateAsync: setUserMutation, isPending } = useMutation({
-        mutationFn: setUser,
+        mutationFn: setSignUp,
         onSuccess: () => {
             alert('Usuário criado com sucesso')
         },
@@ -54,8 +55,13 @@ export function SignUp() {
         },
     })
 
-    function handleSignUp({ name, email, password }: SignUpSchemaData) {
-        setUserMutation({ name, email, password })
+    async function handleSignUp({ name, email, password }: SignUpSchemaData) {
+        // eslint-disable-next-line no-useless-catch
+        try {
+            await setUserMutation({ name, email, password })
+        } catch (error) {
+            throw error
+        }
     }
 
     function handleGoBack() {

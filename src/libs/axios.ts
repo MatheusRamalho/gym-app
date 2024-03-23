@@ -1,8 +1,7 @@
 import axios from 'axios'
 
+import { BASE_URL } from '@/constants/api'
 import { AppError } from '@/utils/appError'
-
-const BASE_URL = 'http://192.168.100.86:3333'
 
 const api = axios.create({
     baseURL: BASE_URL,

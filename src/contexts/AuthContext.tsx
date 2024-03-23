@@ -1,15 +1,17 @@
 /* eslint-disable no-useless-catch */
-import { ReactNode, createContext, useState } from 'react'
+import { ReactNode, createContext, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
+import { User } from '@/types/User'
 import { setSignIn } from '@/api/sign-in'
 import { AppError } from '@/utils/appError'
-import { User } from '@/types/User'
+import { storageUserSet, storageUserGet, storageUserRemove } from '@/storage/storageUser'
 
 interface AuthContextProps {
-    user: User
+    user: User | null
     isLoading: boolean
     signIn: (email: string, password: string) => Promise<void>
+    signOut: () => Promise<void>
 }
 
 interface AuthContextProviderProps {
@@ -19,7 +21,7 @@ interface AuthContextProviderProps {
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-    const [user, setUser] = useState<User>({} as User)
+    const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { mutateAsync: signInMutation, isPending } = useMutation({
@@ -39,7 +41,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             const response = await signInMutation({ email, password })
 
             if (response) {
-                setUser(response)
+                setUser(response.user)
+                storageUserSet(response.user)
             }
         } catch (error) {
             throw error
@@ -48,5 +51,37 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         }
     }
 
-    return <AuthContext.Provider value={{ user, signIn, isLoading }}>{children}</AuthContext.Provider>
+    async function signOut() {
+        try {
+            setIsLoading(true)
+            setUser(null)
+            await storageUserRemove()
+        } catch (error) {
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function loadUserData() {
+        setIsLoading(true)
+
+        try {
+            const userLogged = await storageUserGet()
+
+            if (userLogged) {
+                setUser(userLogged)
+            }
+        } catch (error) {
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        loadUserData()
+    }, [])
+
+    return <AuthContext.Provider value={{ user, isLoading, signIn, signOut }}>{children}</AuthContext.Provider>
 }
