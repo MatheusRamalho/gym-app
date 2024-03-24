@@ -3,9 +3,13 @@ import { ReactNode, createContext, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
 import { User } from '@/types/User'
+
 import { api } from '@/libs/axios'
+
 import { setSignIn } from '@/api/sign-in'
-import { AppError } from '@/utils/appError'
+
+import { renderError } from '@/utils/renderError'
+
 import { storageUserSet, storageUserGet, storageUserRemove } from '@/storage/storageUser'
 import { storageAuthTokenSet, storageAuthTokenGet, storageAuthTokenRemove } from '@/storage/storageAuthToken'
 
@@ -29,10 +33,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const { mutateAsync: signInMutation, isPending } = useMutation({
         mutationFn: setSignIn,
         onError: (error) => {
-            const isAppError = error instanceof AppError
-            const message = isAppError ? error.message : 'Não foi possível logar. Tente novamente mais tarde'
-
-            alert(message)
+            renderError(error, 'Não foi possível logar. Tente novamente mais tarde')
         },
     })
 

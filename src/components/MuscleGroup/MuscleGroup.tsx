@@ -10,7 +10,7 @@ export function MuscleGroup({ name, isActive = false, ...rest }: MuscleGroupProp
     return (
         <Pressable
             className={clsx(
-                'w-24 h-12 m-1 border border-gray-600 bg-gray-700 rounded items-center justify-center overflow-hidden active:border-green-500',
+                'min-w-24 max-w-28 h-12 m-1 px-1 border border-gray-600 bg-gray-700 rounded items-center justify-center overflow-hidden active:border-green-500',
                 isActive && '!border-green-500',
             )}
             {...rest}

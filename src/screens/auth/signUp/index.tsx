@@ -7,9 +7,13 @@ import * as zod from 'zod'
 import { useMutation } from '@tanstack/react-query'
 
 import { setSignUp } from '@/api/sign-up'
-import { AppError } from '@/utils/appError'
+
 import { AuthNavigatorRoutesProps } from '@/types/AuthRoutes'
+
+import { renderError } from '@/utils/renderError'
+
 import { AuthLayout } from '@/layouts/AuthLayout'
+
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 
@@ -48,10 +52,7 @@ export function SignUp() {
             alert('Usuário criado com sucesso')
         },
         onError: (error) => {
-            const isAppError = error instanceof AppError
-            const message = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde'
-
-            alert(message)
+            renderError(error, 'Não foi possível criar a conta. Tente novamente mais tarde')
         },
     })
 
